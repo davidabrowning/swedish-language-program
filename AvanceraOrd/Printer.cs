@@ -1,0 +1,65 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace AvanceraOrd
+{
+    internal class Printer
+    {
+        private ConsoleColor defaultTextColor = ConsoleColor.White;
+
+        public void Reset()
+        {
+            Console.ForegroundColor = defaultTextColor;
+        }
+
+        public void PrintChapterTitle(int chapterNum)
+        {
+            Console.ForegroundColor = defaultTextColor;
+            Console.WriteLine($"===== KAPITEL {chapterNum} =====");
+        }
+
+        public void PrintSectionTitle(string sectionTitle)
+        {
+            Console.ForegroundColor = defaultTextColor;
+            Console.WriteLine($"[{sectionTitle}]");
+        }
+
+        public void PrintWordBox(string wordBox)
+        {
+            Console.ForegroundColor = defaultTextColor;
+            Console.WriteLine($"\n{wordBox}");
+        }
+
+        public void PrintQuestion(string question)
+        {
+            Console.ForegroundColor = defaultTextColor;
+            Console.Write($"\n{question}     ");
+        }
+
+        public void PrintSectionSummary(int correct, int total)
+        {
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine($"\nSammanfattning: {correct} / {total}.");
+        }
+
+        public void PrintCorrectAnswer(string answer)
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            PrintAnswer(answer);
+        }
+
+        public void PrintIncorrectAnswer(string answer)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            PrintAnswer(answer);
+        }
+
+        public void PrintAnswer(string answer)
+        {
+            Console.WriteLine($"{answer}");
+        }
+    }
+}

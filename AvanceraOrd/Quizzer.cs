@@ -8,31 +8,54 @@ namespace AvanceraOrd
 {
     internal class Quizzer
     {
-        public void Start(List<Section> sections)
+        private Printer printer;
+
+        public Quizzer() 
         {
-            foreach(Section section in sections)
+            printer = new Printer();
+        }
+
+        public void Start(List<Chapter> chapters)
+        {
+            foreach (Chapter chapter in chapters)
             {
-                int questionsAsked = 0;
-                int correctAnswers = 0;
-                Console.WriteLine($"===== Sektion {section.Name} =====");
-                foreach (Prompt question in section.Questions)
-                {
-                    Prompt? answer = section.GetAnswer(question.Number);
+                printer.PrintChapterTitle(chapter.Number);
 
-                    Console.WriteLine($"Fråga: {question.Text}");
-                    Console.Write("Ditt svar: ");
-                    string userInput = Console.ReadLine();
-                    Console.WriteLine($"Svar: {answer.Text}");
-                    Console.WriteLine("");
+                foreach (Section section in chapter.Sections)
+                { 
 
-                    questionsAsked++;
-                    if (userInput.Equals(answer.Text))
+                    printer.PrintSectionTitle(section.Name);
+
+                    int questionsAsked = 0;
+                    int correctAnswers = 0;
+
+                    foreach (Prompt question in section.Questions)
                     {
-                        correctAnswers++;
+                        if (questionsAsked % 5 == 0)
+                        {
+                            printer.PrintWordBox(chapter.WordBox);
+                        }
+                        Prompt? answer = section.GetAnswer(question.Number);
+
+                        printer.PrintQuestion(question.Text);
+                        string userInput = Console.ReadLine();
+
+                        questionsAsked++;
+                        if (userInput.Length > 1 && answer.Text.Contains(userInput))
+                        {
+                            printer.PrintCorrectAnswer(answer.Text);
+                            correctAnswers++;
+                        } 
+                        else
+                        {
+                            printer.PrintIncorrectAnswer(answer.Text);
+                        }
                     }
+
+                    printer.PrintSectionSummary(correctAnswers, questionsAsked);
                 }
-                Console.WriteLine($"Sammanfattning: {correctAnswers} / {questionsAsked}");
             }
+            printer.Reset();
         }
     }
 }

@@ -12,7 +12,7 @@ namespace AvanceraOrd
         // Fields
         private DataLoader dataLoader;
         private Quizzer quizzer;
-        private List<Section> sections;
+        private List<Chapter> chapters;
 
         // Properties
         
@@ -21,14 +21,14 @@ namespace AvanceraOrd
         {
             dataLoader = new DataLoader();
             quizzer = new Quizzer();
-            sections = new List<Section>();
+            chapters = new List<Chapter>();
         }
 
         // Methods
         public void Start()
         {
-            sections = dataLoader.LoadSections();
-            quizzer.Start(sections);
+            chapters = dataLoader.LoadChapters();
+            quizzer.Start(chapters);
         } 
     }
 }
