@@ -12,19 +12,15 @@ namespace AvanceraOrd
     /// </summary>
     internal class DataLoader
     {
-        // Private constants
+        // Private constants and readonlys
         private const string wordBoxFilename = "TextFiles/Words/{0}.txt";
         private const string exerciseFilename = "TextFiles/Exercises/{0}.txt";
         private const string promptSeparator = "\n";
         private const string promptNumberSeparator = ".";
         private const string promptBlankOriginal = "_";
         private const string promptBlankFinal = "____________";
-
-        // Private fields
-        private int[] chapterNums = { 1 };
-        private string[] exerciseLetters = { "b" };
-
-        // Public properties
+        private readonly int[] chapterNums = { 1 };
+        private readonly string[] exerciseLetters = { "b" };
 
         /// <summary>
         /// Loads all chapters from files.
