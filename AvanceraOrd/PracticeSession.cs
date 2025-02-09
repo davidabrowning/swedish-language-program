@@ -24,7 +24,9 @@ namespace AvanceraOrd
             chapters = new List<Chapter>();
         }
 
-        // Methods
+        /// <summary>
+        /// Starts the practice session.
+        /// </summary>
         public void Start()
         {
             chapters = dataLoader.LoadChapters();
