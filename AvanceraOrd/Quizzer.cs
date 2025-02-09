@@ -35,7 +35,6 @@ namespace AvanceraOrd
         private void PerformChapterQuiz(Chapter chapter)
         {
             printer.PrintChapterTitle(chapter.Number);
-
             foreach (Exercise exercise in chapter.Exercises)
             {
                 PerformExerciseQuiz(exercise, chapter.WordBox);
@@ -49,24 +48,21 @@ namespace AvanceraOrd
         /// <param name="wordBox">The chapter's word list.</param>
         private void PerformExerciseQuiz(Exercise exercise, string wordBox)
         {
-            printer.PrintExerciseTitle(exercise.Name);
-
             int questionsAsked = 0;
             int correctAnswers = 0;
 
+            printer.PrintExerciseTitle(exercise.Name);
             foreach (Prompt question in exercise.Questions)
             {
                 Prompt? answer = exercise.GetAnswer(question.Number);
-
                 PerformQuestionQuiz(question, answer, wordBox, ref questionsAsked, ref correctAnswers);
 
             }
-
             printer.PrintExerciseSummary(correctAnswers, questionsAsked);
         }
 
         /// <summary>
-        /// Quizzes the user on one question.
+        /// Quizzes the user on one question. Updates counters for questions asked and correct answers.
         /// </summary>
         /// <param name="question">The question to ask.</param>
         /// <param name="answer">The answer to the question.</param>
