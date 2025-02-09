@@ -21,7 +21,7 @@ namespace AvanceraOrd
             Console.WriteLine($"===== KAPITEL {chapterNum} =====");
         }
 
-        public void PrintSectionTitle(string sectionTitle)
+        public void PrintExerciseTitle(string sectionTitle)
         {
             Console.ForegroundColor = defaultTextColor;
             Console.WriteLine($"[{sectionTitle}]");
@@ -39,7 +39,7 @@ namespace AvanceraOrd
             Console.Write($"\n{question}     ");
         }
 
-        public void PrintSectionSummary(int correct, int total)
+        public void PrintExerciseSummary(int correct, int total)
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine($"\nSammanfattning: {correct} / {total}.");

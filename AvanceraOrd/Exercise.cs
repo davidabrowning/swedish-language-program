@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace AvanceraOrd
 {
-    internal class Section
+    internal class Exercise
     {
         public string Name { get; set; }
         
         public List<Prompt> Questions { get; set; }
         public List<Prompt> Answers { get; set; }
-        public Section(string name)
+        public Exercise(string name)
         {
             Name = name;
             Questions = new List<Prompt>();

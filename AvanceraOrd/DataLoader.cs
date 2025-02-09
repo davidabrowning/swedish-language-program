@@ -15,7 +15,7 @@ namespace AvanceraOrd
 
         // Private fields
         private int[] chapterNums = { 1 };
-        private string[] sectionSubtitles = { "b" };
+        private string[] exerciseLetters = { "b" };
 
         // Public properties
 
@@ -32,7 +32,7 @@ namespace AvanceraOrd
                 chapter.WordBox = LoadWordBox(chapterNum);
 
                 // Load sections
-                chapter.Sections = LoadSections(chapterNum);
+                chapter.Exercises = LoadExercises(chapterNum);
 
                 // Add the new chapter
                 chapters.Add(chapter);
@@ -52,13 +52,13 @@ namespace AvanceraOrd
                 return "";
             }
         }
-        public List<Section> LoadSections(int chapterNum)
+        public List<Exercise> LoadExercises(int chapterNum)
         {
-            List<Section> sections = new List<Section>();
-            foreach (string sectionSubtitle in sectionSubtitles)
+            List<Exercise> sections = new List<Exercise>();
+            foreach (string sectionSubtitle in exerciseLetters)
             {
                 string sectionTitle = $"{chapterNum}{sectionSubtitle}";
-                Section section = LoadSection(sectionTitle);
+                Exercise section = LoadExercise(sectionTitle);
                 if (section != null)
                 {
                     sections.Add(section);
@@ -67,18 +67,18 @@ namespace AvanceraOrd
             return sections;
         }
 
-        private Section? LoadSection(string title)
+        private Exercise? LoadExercise(string exerciseTitle)
         {
             try
             {
-                Section section = new Section(title);
+                Exercise exercise = new Exercise(exerciseTitle);
 
-                string exerciseFullText = File.ReadAllText(String.Format(exerciseFilename, title));
+                string exerciseFullText = File.ReadAllText(String.Format(exerciseFilename, exerciseTitle));
                 string[] exerciseTextArea = exerciseFullText.Split("===");
-                section.Questions = LoadPrompts(exerciseTextArea[0]);
-                section.Answers = LoadPrompts(exerciseTextArea[1]);
+                exercise.Questions = LoadPrompts(exerciseTextArea[0]);
+                exercise.Answers = LoadPrompts(exerciseTextArea[1]);
 
-                return section;
+                return exercise;
             }
             catch (Exception ex)
             {

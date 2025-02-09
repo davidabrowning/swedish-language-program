@@ -21,10 +21,10 @@ namespace AvanceraOrd
             {
                 printer.PrintChapterTitle(chapter.Number);
 
-                foreach (Section section in chapter.Sections)
+                foreach (Exercise section in chapter.Exercises)
                 { 
 
-                    printer.PrintSectionTitle(section.Name);
+                    printer.PrintExerciseTitle(section.Name);
 
                     int questionsAsked = 0;
                     int correctAnswers = 0;
@@ -52,7 +52,7 @@ namespace AvanceraOrd
                         }
                     }
 
-                    printer.PrintSectionSummary(correctAnswers, questionsAsked);
+                    printer.PrintExerciseSummary(correctAnswers, questionsAsked);
                 }
             }
             printer.Reset();
