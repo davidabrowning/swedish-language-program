@@ -7,6 +7,9 @@ using static System.Collections.Specialized.BitVector32;
 
 namespace AvanceraOrd
 {
+    /// <summary>
+    /// Loads word practice data from files.
+    /// </summary>
     internal class DataLoader
     {
         // Private constants
@@ -19,26 +22,27 @@ namespace AvanceraOrd
 
         // Public properties
 
-        // Methods
+        /// <summary>
+        /// Loads all chapters from files.
+        /// </summary>
+        /// <returns>A list of chapters.</returns>
         public List<Chapter> LoadChapters()
         {
             List<Chapter> chapters = new List<Chapter>();
             foreach (int chapterNum in chapterNums)
             {
-                // Create chapter
-                Chapter chapter = new Chapter(chapterNum);
-
-                // Load wordbox
-                chapter.WordBox = LoadWordBox(chapterNum);
-
-                // Load sections
-                chapter.Exercises = LoadExercises(chapterNum);
-
-                // Add the new chapter
-                chapters.Add(chapter);
+                string wordBox = LoadWordBox(chapterNum);
+                List<Exercise> exercises = LoadExercises(chapterNum);
+                chapters.Add(new Chapter(chapterNum, wordBox, exercises));
             }
             return chapters;
         }
+
+        /// <summary>
+        /// Loads a chapter's word list from a file.
+        /// </summary>
+        /// <param name="chapterNum">The chapter number.</param>
+        /// <returns>A string representation of the chapters word list.</returns>
         private string LoadWordBox(int chapterNum)
         {
             try
@@ -47,11 +51,17 @@ namespace AvanceraOrd
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"OBS: Lyckades inte läsa in kapitel {chapterNum}s ordruta.");
+                Console.WriteLine($"OBS: Lyckades inte läsa in kapitel {chapterNum}s ordlista.");
                 Console.WriteLine(ex.Message);
                 return "";
             }
         }
+
+        /// <summary>
+        /// Loads a list of chapter exercises from a file.
+        /// </summary>
+        /// <param name="chapterNum">The chapter number.</param>
+        /// <returns>A list of the chapter's exercises.</returns>
         public List<Exercise> LoadExercises(int chapterNum)
         {
             List<Exercise> sections = new List<Exercise>();
@@ -67,6 +77,11 @@ namespace AvanceraOrd
             return sections;
         }
 
+        /// <summary>
+        /// Loads an exercise from a file.
+        /// </summary>
+        /// <param name="exerciseTitle">The exercise's title.</param>
+        /// <returns>The loaded exercise object.</returns>
         private Exercise? LoadExercise(string exerciseTitle)
         {
             try
@@ -87,6 +102,11 @@ namespace AvanceraOrd
             }
         }
 
+        /// <summary>
+        /// Parses a string textarea into individual prompts (questions or answers).
+        /// </summary>
+        /// <param name="textArea">The textarea to parse.</param>
+        /// <returns>A list of prompt objects.</returns>
         private List<Prompt> LoadPrompts(string textArea)
         {
             List<Prompt> prompts = new List<Prompt>();

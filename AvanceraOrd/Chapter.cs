@@ -10,15 +10,15 @@ namespace AvanceraOrd
     {
         // Properties
         public int Number { get; private set; }
-        public string WordBox { get; set; }
-        public List<Exercise> Exercises { get; set; }
+        public string WordBox { get; private set; }
+        public List<Exercise> Exercises { get; private set; }
 
         // Constructor
-        public Chapter(int number) 
+        public Chapter(int number, string wordBox, List<Exercise> exercises) 
         {
             Number = number;
-            WordBox = "";
-            Exercises = new List<Exercise>();
+            WordBox = wordBox;
+            Exercises = exercises;
         }
     }
 }
