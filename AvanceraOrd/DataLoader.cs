@@ -15,6 +15,10 @@ namespace AvanceraOrd
         // Private constants
         private const string wordBoxFilename = "TextFiles/Words/{0}.txt";
         private const string exerciseFilename = "TextFiles/Exercises/{0}.txt";
+        private const string promptSeparator = "\n";
+        private const string promptNumberSeparator = ".";
+        private const string promptBlankOriginal = "_";
+        private const string promptBlankFinal = "____________";
 
         // Private fields
         private int[] chapterNums = { 1 };
@@ -110,10 +114,10 @@ namespace AvanceraOrd
         private List<Prompt> LoadPrompts(string textArea)
         {
             List<Prompt> prompts = new List<Prompt>();
-            string[] textLines = textArea.Split("\n");
+            string[] textLines = textArea.Split(promptSeparator);
             foreach (string textLine in textLines)
             {
-                int indexOfFirstPeriod = textLine.IndexOf(".");
+                int indexOfFirstPeriod = textLine.IndexOf(promptNumberSeparator);
                 if (indexOfFirstPeriod == -1)
                 {
                     continue;
@@ -121,7 +125,7 @@ namespace AvanceraOrd
                 string promptNumAsString = textLine.Substring(0, indexOfFirstPeriod);
                 string promptText = textLine.Substring(indexOfFirstPeriod + 1);
                 if (int.TryParse(promptNumAsString, out int promptNum)) {
-                    promptText = promptText.Replace("_", "____________");
+                    promptText = promptText.Replace(promptBlankOriginal, promptBlankFinal);
                     Prompt prompt = new Prompt(promptNum, promptText.Trim());
                     prompts.Add(prompt);
                 }
