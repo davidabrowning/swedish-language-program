@@ -24,7 +24,7 @@ namespace AvanceraOrd
         public void PrintExerciseTitle(string sectionTitle)
         {
             Console.ForegroundColor = defaultTextColor;
-            Console.WriteLine($"[{sectionTitle}]");
+            Console.WriteLine($"\n[{sectionTitle}]");
         }
 
         public void PrintWordBox(string wordBox)

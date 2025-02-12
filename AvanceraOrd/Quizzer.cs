@@ -77,10 +77,10 @@ namespace AvanceraOrd
             }
 
             printer.PrintQuestion(question.Text);
-            string userInput = Console.ReadLine();
+            string userInput = Console.ReadLine().ToLower();
 
             questionsAsked++;
-            if (userInput.Length > 1 && answer.Text.Contains(userInput))
+            if (userInput.Length > 1 && answer.Text.ToLower().Contains(userInput))
             {
                 printer.PrintCorrectAnswer(answer.Text);
                 correctAnswers++;
