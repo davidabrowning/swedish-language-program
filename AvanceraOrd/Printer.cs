@@ -61,5 +61,11 @@ namespace AvanceraOrd
         {
             Console.WriteLine($"{answer}");
         }
+
+        public void PrintWarning(string warning)
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine(warning);
+        }
     }
 }

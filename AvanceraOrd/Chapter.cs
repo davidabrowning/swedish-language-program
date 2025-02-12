@@ -14,9 +14,9 @@ namespace AvanceraOrd
         public List<Exercise> Exercises { get; private set; }
 
         // Constructor
-        public Chapter(int number, string wordBox, List<Exercise> exercises) 
+        public Chapter(string chapterNumber, string wordBox, List<Exercise> exercises) 
         {
-            Number = number;
+            Number = Convert.ToInt32(chapterNumber);
             WordBox = wordBox;
             Exercises = exercises;
         }

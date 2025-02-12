@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,15 +13,73 @@ namespace AvanceraOrd
     /// </summary>
     internal class DataLoader
     {
-        // Private constants and readonlys
-        private const string wordBoxFilename = "TextFiles/Words/{0}.txt";
-        private const string exerciseFilename = "TextFiles/Exercises/{0}.txt";
-        private const string promptSeparator = "\n";
+        // Constants
+        private const string configFilename = "TextFiles/Config.txt";
+
+        // Private fields
+        private string exerciseFilename;
+        private string wordBoxFilename;
+        private string sectionSeparator;
+        private string promptSeparator = "\n";
         private const string promptNumberSeparator = ".";
-        private const string promptBlankOriginal = "_";
+        private string promptBlankOriginal = "_";
         private const string promptBlankFinal = "____________";
-        private readonly int[] chapterNums = { 1 };
-        private readonly string[] exerciseLetters = { "b" };
+        private string[] chapterNums;
+        private  string[] exerciseLetters;
+        private Printer printer;
+
+        public DataLoader()
+        {
+            LoadConfigSettings();
+            printer = new Printer();
+        }
+
+        private void LoadConfigSettings()
+        {
+            try
+            {
+                string settingsString = File.ReadAllText(configFilename);
+                string[] settingsArray = settingsString.Split("\n");
+                foreach (string settingString in settingsArray) {
+                    SetConfig(settingString);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        private void SetConfig(string configSetting)
+        {
+            string[] configSettingArray = configSetting.Split(":");
+            string configType = configSettingArray[0].Trim();
+            string configValue = configSettingArray[1].Trim();
+            switch (configType)
+            {
+                case "PromptFolder":
+                    exerciseFilename = configValue + "/{0}.txt";
+                    break;
+                case "WordBoxFolder":
+                    wordBoxFilename = configValue + "/{0}.txt";
+                    break;
+                case "SectionSeparator":
+                    sectionSeparator = configValue;
+                    break;
+                case "PromptBlank":
+                    promptBlankOriginal = configValue;
+                    break;
+                case "Chapters":
+                    chapterNums = configValue.Split(",");
+                    break;
+                case "Exercises":
+                    exerciseLetters = configValue.Split(",");
+                    break;
+                default:
+                    printer.PrintWarning("Varning: Oväntad konfigurationstyp.");
+                    break;
+            }
+        }
 
         /// <summary>
         /// Loads all chapters from files.
@@ -29,7 +88,7 @@ namespace AvanceraOrd
         public List<Chapter> LoadChapters()
         {
             List<Chapter> chapters = new List<Chapter>();
-            foreach (int chapterNum in chapterNums)
+            foreach (string chapterNum in chapterNums)
             {
                 string wordBox = LoadWordBox(chapterNum);
                 List<Exercise> exercises = LoadExercises(chapterNum);
@@ -43,7 +102,7 @@ namespace AvanceraOrd
         /// </summary>
         /// <param name="chapterNum">The chapter number.</param>
         /// <returns>A string representation of the chapters word list.</returns>
-        private string LoadWordBox(int chapterNum)
+        private string LoadWordBox(string chapterNum)
         {
             try
             {
@@ -62,7 +121,7 @@ namespace AvanceraOrd
         /// </summary>
         /// <param name="chapterNum">The chapter number.</param>
         /// <returns>A list of the chapter's exercises.</returns>
-        public List<Exercise> LoadExercises(int chapterNum)
+        public List<Exercise> LoadExercises(string chapterNum)
         {
             List<Exercise> sections = new List<Exercise>();
             foreach (string sectionSubtitle in exerciseLetters)
@@ -89,7 +148,7 @@ namespace AvanceraOrd
                 Exercise exercise = new Exercise(exerciseTitle);
 
                 string exerciseFullText = File.ReadAllText(String.Format(exerciseFilename, exerciseTitle));
-                string[] exerciseTextArea = exerciseFullText.Split("===");
+                string[] exerciseTextArea = exerciseFullText.Split(sectionSeparator);
                 exercise.Questions = LoadPrompts(exerciseTextArea[0]);
                 exercise.Answers = LoadPrompts(exerciseTextArea[1]);
 
