@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace SwedishLanguageProgram
 {
-    internal class Exercise
+    internal class ProblemSet
     {
         public string Name { get; set; }
         
         public List<Prompt> Questions { get; set; }
         public List<Prompt> Answers { get; set; }
-        public Exercise(string name)
+        public ProblemSet(string name)
         {
             Name = name;
             Questions = new List<Prompt>();

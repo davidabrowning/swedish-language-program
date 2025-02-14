@@ -9,127 +9,83 @@ using static System.Collections.Specialized.BitVector32;
 namespace SwedishLanguageProgram
 {
     /// <summary>
-    /// Loads word practice data from files.
+    /// Loads word practice data from data source.
     /// </summary>
     internal class DataLoader
     {
         // Constants
-        private const string configFilename = "TextFiles/Config.txt";
-
-        // Private fields - read in from config file
-        private string exerciseFilename;
-        private string wordBoxFilename;
-        private string sectionSeparator;
-        private string[] chapterNums;
-        private string[] exerciseLetters;
-
-        // Private fields - other
-        private string promptSeparator = "\n";
+        private const string wordListNumberSeparator = ".";
+        private const string sectionSeparator = "===";
+        private const string promptSeparator = "\n";
         private const string promptNumberSeparator = ".";
-        private string promptBlankOriginal = "_";
+        private const string promptBlankOriginal = "_";
         private const string promptBlankFinal = "____________";
+
+        // Private readonly fields
+        private readonly string[] chapterNames = { "1" };
+        private readonly string[] problemSetLetters = { "b", "c" };
+
+        // Private fields
         private Printer printer;
+        private Database database;
 
         public DataLoader()
         {
-            LoadConfigSettings();
             printer = new Printer();
-        }
-
-        private void LoadConfigSettings()
-        {
-            try
-            {
-                string settingsString = File.ReadAllText(configFilename);
-                string[] settingsArray = settingsString.Split("\n");
-                foreach (string settingString in settingsArray) {
-                    SetConfig(settingString);
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-        }
-
-        private void SetConfig(string configSetting)
-        {
-            string[] configSettingArray = configSetting.Split(":");
-            string configType = configSettingArray[0].Trim();
-            string configValue = configSettingArray[1].Trim();
-            switch (configType)
-            {
-                case "PromptFolder":
-                    exerciseFilename = configValue + "/{0}.txt";
-                    break;
-                case "WordBoxFolder":
-                    wordBoxFilename = configValue + "/{0}.txt";
-                    break;
-                case "SectionSeparator":
-                    sectionSeparator = configValue;
-                    break;
-                case "PromptBlank":
-                    promptBlankOriginal = configValue;
-                    break;
-                case "Chapters":
-                    chapterNums = configValue.Split(",");
-                    break;
-                case "Exercises":
-                    exerciseLetters = configValue.Split(",");
-                    break;
-                default:
-                    printer.PrintWarning("Varning: Oväntad konfigurationstyp.");
-                    break;
-            }
+            database = new Database();
         }
 
         /// <summary>
-        /// Loads all chapters from files.
+        /// Loads all chapters from data source.
         /// </summary>
         /// <returns>A list of chapters.</returns>
         public List<Chapter> LoadChapters()
         {
             List<Chapter> chapters = new List<Chapter>();
-            foreach (string chapterNum in chapterNums)
+            foreach (string chapterName in chapterNames)
             {
-                string wordBox = LoadWordBox(chapterNum);
-                List<Exercise> exercises = LoadExercises(chapterNum);
-                chapters.Add(new Chapter(chapterNum, wordBox, exercises));
+                List<string> wordList = LoadWordList(chapterName);
+                List<ProblemSet> problemSet = LoadProblemSets(chapterName);
+                chapters.Add(new Chapter(chapterName, wordList, problemSet));
             }
             return chapters;
         }
 
         /// <summary>
-        /// Loads a chapter's word list from a file.
+        /// Loads a chapter's word list from a database object.
         /// </summary>
         /// <param name="chapterNum">The chapter number.</param>
         /// <returns>A string representation of the chapters word list.</returns>
-        private string LoadWordBox(string chapterNum)
+        private List<string> LoadWordList(string chapterNum)
         {
-            try
+            List<string> wordList = new List<string>();
+            string textArea = database.GetWordList(chapterNum);
+            string[] textLines = textArea.Split("\n");
+            foreach (string textLine in textLines)
             {
-                return File.ReadAllText(String.Format(wordBoxFilename, chapterNum));
+                int indexOfFirstPeriod = textLine.IndexOf(wordListNumberSeparator);
+                if (indexOfFirstPeriod == -1)
+                {
+                    continue;
+                }
+                string word = textLine.Substring(indexOfFirstPeriod + 1).Trim();
+                wordList.Add(word);
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"OBS: Lyckades inte läsa in kapitel {chapterNum}s ordlista.");
-                Console.WriteLine(ex.Message);
-                return "";
-            }
+            return wordList;
         }
 
         /// <summary>
-        /// Loads a list of chapter exercises from a file.
+        /// Loads a list of chapter problemSet from a database object.
         /// </summary>
         /// <param name="chapterNum">The chapter number.</param>
-        /// <returns>A list of the chapter's exercises.</returns>
-        public List<Exercise> LoadExercises(string chapterNum)
+        /// <returns>A list of the chapter's problemSet.</returns>
+        private List<ProblemSet> LoadProblemSets(string chapterNum)
         {
-            List<Exercise> sections = new List<Exercise>();
-            foreach (string sectionSubtitle in exerciseLetters)
+            List<ProblemSet> sections = new List<ProblemSet>();
+            foreach (string sectionSubtitle in problemSetLetters)
             {
                 string sectionTitle = $"{chapterNum}{sectionSubtitle}";
-                Exercise section = LoadExercise(sectionTitle);
+                ProblemSet section = LoadProblemSetFromDatabaseObject(sectionTitle);
                 if (section != null)
                 {
                     sections.Add(section);
@@ -138,29 +94,17 @@ namespace SwedishLanguageProgram
             return sections;
         }
 
-        /// <summary>
-        /// Loads an exercise from a file.
-        /// </summary>
-        /// <param name="exerciseTitle">The exercise's title.</param>
-        /// <returns>The loaded exercise object.</returns>
-        private Exercise? LoadExercise(string exerciseTitle)
+        private ProblemSet? LoadProblemSetFromDatabaseObject(string problemSetTitle)
         {
-            try
+            ProblemSet problemSet = new ProblemSet(problemSetTitle);
+            string rawText = database.GetProblemSet(problemSetTitle);
+            string[] textAreas = rawText.Split(sectionSeparator);
+            if(textAreas.Length == 2)
             {
-                Exercise exercise = new Exercise(exerciseTitle);
-
-                string exerciseFullText = File.ReadAllText(String.Format(exerciseFilename, exerciseTitle));
-                string[] exerciseTextArea = exerciseFullText.Split(sectionSeparator);
-                exercise.Questions = LoadPrompts(exerciseTextArea[0]);
-                exercise.Answers = LoadPrompts(exerciseTextArea[1]);
-
-                return exercise;
+                problemSet.Questions = LoadPrompts(textAreas[0]);
+                problemSet.Answers = LoadPrompts(textAreas[1]);
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-                return null;
-            }
+            return problemSet;
         }
 
         /// <summary>

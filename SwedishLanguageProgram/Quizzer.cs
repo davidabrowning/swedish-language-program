@@ -34,31 +34,31 @@ namespace SwedishLanguageProgram
         /// <param name="chapter">The chapter for the quiz.</param>
         private void PerformChapterQuiz(Chapter chapter)
         {
-            printer.PrintChapterTitle(chapter.Number);
-            foreach (Exercise exercise in chapter.Exercises)
+            printer.PrintChapterTitle(chapter.Name);
+            foreach (ProblemSet problemSet in chapter.ProblemSets)
             {
-                PerformExerciseQuiz(exercise, chapter.WordBox);
+                PerformProblemSetQuiz(problemSet, chapter.WordList);
             }
         }
 
         /// <summary>
-        /// Quizzes the user on one exercise.
+        /// Quizzes the user on one problem set.
         /// </summary>
-        /// <param name="exercise">The exercise for the quiz.</param>
+        /// <param name="problemSet">The problemSet for the quiz.</param>
         /// <param name="wordBox">The chapter's word list.</param>
-        private void PerformExerciseQuiz(Exercise exercise, string wordBox)
+        private void PerformProblemSetQuiz(ProblemSet problemSet, List<string> wordList)
         {
             int questionsAsked = 0;
             int correctAnswers = 0;
 
-            printer.PrintExerciseTitle(exercise.Name);
-            foreach (Prompt question in exercise.Questions)
+            printer.PrintProblemSetTitle(problemSet.Name);
+            foreach (Prompt question in problemSet.Questions)
             {
-                Prompt? answer = exercise.GetAnswer(question.Number);
-                PerformQuestionQuiz(question, answer, wordBox, ref questionsAsked, ref correctAnswers);
+                Prompt? answer = problemSet.GetAnswer(question.Number);
+                PerformQuestionQuiz(question, answer, wordList, ref questionsAsked, ref correctAnswers);
 
             }
-            printer.PrintExerciseSummary(correctAnswers, questionsAsked);
+            printer.PrintProblemSetSummary(correctAnswers, questionsAsked);
         }
 
         /// <summary>
@@ -67,13 +67,13 @@ namespace SwedishLanguageProgram
         /// <param name="question">The question to ask.</param>
         /// <param name="answer">The answer to the question.</param>
         /// <param name="wordBox">The chapter's word list.</param>
-        /// <param name="questionsAsked">The number of questions asked so far in this exercise.</param>
-        /// <param name="correctAnswers">The number of correct answers so far in this exercise.</param>
-        private void PerformQuestionQuiz(Prompt question, Prompt answer, string wordBox, ref int questionsAsked, ref int correctAnswers)
+        /// <param name="questionsAsked">The number of questions asked so far in this problemSet.</param>
+        /// <param name="correctAnswers">The number of correct answers so far in this problemSet.</param>
+        private void PerformQuestionQuiz(Prompt question, Prompt answer, List<string> wordList, ref int questionsAsked, ref int correctAnswers)
         {
             if (questionsAsked % 5 == 0)
             {
-                printer.PrintWordBox(wordBox);
+                printer.PrintWordList(wordList);
             }
 
             printer.PrintQuestion(question.Text);
