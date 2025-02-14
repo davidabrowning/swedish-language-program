@@ -16,16 +16,18 @@ namespace AvanceraOrd
         // Constants
         private const string configFilename = "TextFiles/Config.txt";
 
-        // Private fields
+        // Private fields - read in from config file
         private string exerciseFilename;
         private string wordBoxFilename;
         private string sectionSeparator;
+        private string[] chapterNums;
+        private string[] exerciseLetters;
+
+        // Private fields - other
         private string promptSeparator = "\n";
         private const string promptNumberSeparator = ".";
         private string promptBlankOriginal = "_";
         private const string promptBlankFinal = "____________";
-        private string[] chapterNums;
-        private  string[] exerciseLetters;
         private Printer printer;
 
         public DataLoader()
