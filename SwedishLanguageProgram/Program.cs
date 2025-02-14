@@ -1,4 +1,4 @@
-﻿namespace AvanceraOrd
+﻿namespace SwedishLanguageProgram
 {
     internal class Program
     {

@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static System.Collections.Specialized.BitVector32;
 
-namespace AvanceraOrd
+namespace SwedishLanguageProgram
 {
     /// <summary>
     /// Loads word practice data from files.
