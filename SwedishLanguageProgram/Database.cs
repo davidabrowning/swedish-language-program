@@ -8,9 +8,9 @@ namespace SwedishLanguageProgram
 {
     internal class Database
     {
-        public string? GetWordList(string chapterNum)
+        public string? GetWordList(string chapterName)
         {
-            switch (chapterNum)
+            switch (chapterName)
             {
                 case "1":
                     return """
@@ -44,9 +44,9 @@ namespace SwedishLanguageProgram
                     return null;
             }
         }
-        public string? GetProblemSet(string key)
+        public string? GetProblemSet(string problemSetName)
         {
-            switch(key)
+            switch(problemSetName)
             {
                 case "1b":
                     return """
@@ -157,7 +157,7 @@ namespace SwedishLanguageProgram
                         25. däremot
                         """;
                 default:
-                    Console.WriteLine($"Lyckades inte ladda in {key} from Database-klassen.");
+                    Console.WriteLine($"Lyckades inte ladda in {problemSetName} from Database-klassen.");
                     return null;
             }
         }
