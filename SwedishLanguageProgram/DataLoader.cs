@@ -14,15 +14,15 @@ namespace SwedishLanguageProgram
     internal class DataLoader
     {
         // Constants
+        private const string sectionSeparator = "===";
+        private const string promptSeparator = "\n";
+        private const string promptNumberSeparator = ".";
+        private const string promptBlankOriginal = "_";
+        private const string promptBlankFinal = "____________";
 
         // Private readonly fields
-        private readonly string sectionSeparator = "===";
         private readonly string[] chapterNums = { "1" };
         private readonly string[] exerciseLetters = { "b", "c" };
-        private readonly string promptSeparator = "\n";
-        private readonly string promptNumberSeparator = ".";
-        private readonly string promptBlankOriginal = "_";
-        private readonly string promptBlankFinal = "____________";
 
         // Private fields
         private Printer printer;
