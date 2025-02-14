@@ -8,23 +8,43 @@ namespace SwedishLanguageProgram
 {
     internal class Database
     {
-        public string? GetWordBox(string chapterNum)
+        public string? GetWordList(string chapterNum)
         {
             switch (chapterNum)
             {
                 case "1":
                     return """
-                        anledning	beställa	framställa	inflytande	ogilla
-                        anmäla		bidrag		förbereda	likgiltig	pågå
-                        avlägsen	däremot		förbud		meddelande	sammanträde
-                        avstånd		efterfrågan	genomsnitt	misstänka	tillfälle
-                        bedöma		erfarenhet	hänsyn		närvarande	undvika
+                        1. anledning
+                        2. anmäla
+                        3. avlägsen
+                        4. avstånd
+                        5. bedöma
+                        6. beställa
+                        7. bidrag
+                        8. däremot
+                        9. efterfrågan
+                        10. erfarenhet
+                        11. framställa
+                        12. förbereda
+                        13. förbud
+                        14. genomsnitt
+                        15. hänsyn
+                        16. inflytande
+                        17. likgiltig
+                        18. meddelande
+                        19. misstänka
+                        20. närvarande
+                        21. ogilla
+                        22. pågå
+                        23. sammanträde
+                        24. tillfälle
+                        25. undvika	
                         """;
                 default:
                     return null;
             }
         }
-        public string? GetExercise(string key)
+        public string? GetProblemSet(string key)
         {
             switch(key)
             {

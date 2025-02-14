@@ -14,6 +14,7 @@ namespace SwedishLanguageProgram
     internal class DataLoader
     {
         // Constants
+        private const string wordListNumberSeparator = ".";
         private const string sectionSeparator = "===";
         private const string promptSeparator = "\n";
         private const string promptNumberSeparator = ".";
@@ -21,8 +22,8 @@ namespace SwedishLanguageProgram
         private const string promptBlankFinal = "____________";
 
         // Private readonly fields
-        private readonly string[] chapterNums = { "1" };
-        private readonly string[] exerciseLetters = { "b", "c" };
+        private readonly string[] chapterNames = { "1" };
+        private readonly string[] problemSetLetters = { "b", "c" };
 
         // Private fields
         private Printer printer;
@@ -41,11 +42,11 @@ namespace SwedishLanguageProgram
         public List<Chapter> LoadChapters()
         {
             List<Chapter> chapters = new List<Chapter>();
-            foreach (string chapterNum in chapterNums)
+            foreach (string chapterName in chapterNames)
             {
-                string wordBox = LoadWordBox(chapterNum);
-                List<Exercise> exercises = LoadExercises(chapterNum);
-                chapters.Add(new Chapter(chapterNum, wordBox, exercises));
+                List<string> wordList = LoadWordList(chapterName);
+                List<ProblemSet> problemSet = LoadProblemSets(chapterName);
+                chapters.Add(new Chapter(chapterName, wordList, problemSet));
             }
             return chapters;
         }
@@ -55,23 +56,36 @@ namespace SwedishLanguageProgram
         /// </summary>
         /// <param name="chapterNum">The chapter number.</param>
         /// <returns>A string representation of the chapters word list.</returns>
-        private string? LoadWordBox(string chapterNum)
+        private List<string> LoadWordList(string chapterNum)
         {
-            return database.GetWordBox(chapterNum);
+            List<string> wordList = new List<string>();
+            string textArea = database.GetWordList(chapterNum);
+            string[] textLines = textArea.Split("\n");
+            foreach (string textLine in textLines)
+            {
+                int indexOfFirstPeriod = textLine.IndexOf(wordListNumberSeparator);
+                if (indexOfFirstPeriod == -1)
+                {
+                    continue;
+                }
+                string word = textLine.Substring(indexOfFirstPeriod + 1).Trim();
+                wordList.Add(word);
+            }
+            return wordList;
         }
 
         /// <summary>
-        /// Loads a list of chapter exercises from a database object.
+        /// Loads a list of chapter problemSet from a database object.
         /// </summary>
         /// <param name="chapterNum">The chapter number.</param>
-        /// <returns>A list of the chapter's exercises.</returns>
-        private List<Exercise> LoadExercises(string chapterNum)
+        /// <returns>A list of the chapter's problemSet.</returns>
+        private List<ProblemSet> LoadProblemSets(string chapterNum)
         {
-            List<Exercise> sections = new List<Exercise>();
-            foreach (string sectionSubtitle in exerciseLetters)
+            List<ProblemSet> sections = new List<ProblemSet>();
+            foreach (string sectionSubtitle in problemSetLetters)
             {
                 string sectionTitle = $"{chapterNum}{sectionSubtitle}";
-                Exercise section = LoadExerciseFromDatabaseObject(sectionTitle);
+                ProblemSet section = LoadProblemSetFromDatabaseObject(sectionTitle);
                 if (section != null)
                 {
                     sections.Add(section);
@@ -80,17 +94,17 @@ namespace SwedishLanguageProgram
             return sections;
         }
 
-        private Exercise? LoadExerciseFromDatabaseObject(string exerciseTitle)
+        private ProblemSet? LoadProblemSetFromDatabaseObject(string problemSetTitle)
         {
-            Exercise exercise = new Exercise(exerciseTitle);
-            string exerciseFullText = database.GetExercise(exerciseTitle);
-            string[] exerciseTextAreas = exerciseFullText.Split(sectionSeparator);
-            if(exerciseTextAreas.Length == 2)
+            ProblemSet problemSet = new ProblemSet(problemSetTitle);
+            string rawText = database.GetProblemSet(problemSetTitle);
+            string[] textAreas = rawText.Split(sectionSeparator);
+            if(textAreas.Length == 2)
             {
-                exercise.Questions = LoadPrompts(exerciseTextAreas[0]);
-                exercise.Answers = LoadPrompts(exerciseTextAreas[1]);
+                problemSet.Questions = LoadPrompts(textAreas[0]);
+                problemSet.Answers = LoadPrompts(textAreas[1]);
             }
-            return exercise;
+            return problemSet;
         }
 
         /// <summary>

@@ -9,16 +9,16 @@ namespace SwedishLanguageProgram
     internal class Chapter
     {
         // Properties
-        public int Number { get; private set; }
-        public string WordBox { get; private set; }
-        public List<Exercise> Exercises { get; private set; }
+        public string Name { get; private set; }
+        public List<string> WordList { get; private set; }
+        public List<ProblemSet> ProblemSets { get; private set; }
 
         // Constructor
-        public Chapter(string chapterNumber, string wordBox, List<Exercise> exercises) 
+        public Chapter(string name, List<string> wordList, List<ProblemSet> problemSets) 
         {
-            Number = Convert.ToInt32(chapterNumber);
-            WordBox = wordBox;
-            Exercises = exercises;
+            Name = name;
+            WordList = wordList;
+            ProblemSets = problemSets;
         }
     }
 }

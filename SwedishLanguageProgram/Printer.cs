@@ -22,22 +22,30 @@ namespace SwedishLanguageProgram
             Console.WriteLine($"===== {title.ToUpper()} =====");
         }
 
-        public void PrintChapterTitle(int chapterNum)
+        public void PrintChapterTitle(string chapterName)
         {
             Console.ForegroundColor = defaultTextColor;
-            Console.WriteLine($"===== KAPITEL {chapterNum} =====");
+            Console.WriteLine($"===== KAPITEL {chapterName} =====");
         }
 
-        public void PrintExerciseTitle(string sectionTitle)
+        public void PrintProblemSetTitle(string problemSetTitle)
         {
             Console.ForegroundColor = defaultTextColor;
-            Console.WriteLine($"\n[{sectionTitle}]");
+            Console.WriteLine($"\n[{problemSetTitle}]");
         }
 
-        public void PrintWordBox(string wordBox)
+        public void PrintWordList(List<string> wordList)
         {
             Console.ForegroundColor = defaultTextColor;
-            Console.WriteLine($"\n{wordBox}");
+            for (int i = 0; i < wordList.Count; i++)
+            {
+                if (i % 5 == 0)
+                {
+                    Console.WriteLine();
+                }
+                Console.Write($"{String.Format("{0,-15}", wordList[i])}\t");
+            }
+            Console.WriteLine();
         }
 
         public void PrintQuestion(string question)
@@ -46,7 +54,7 @@ namespace SwedishLanguageProgram
             Console.Write($"\n{question}     ");
         }
 
-        public void PrintExerciseSummary(int correct, int total)
+        public void PrintProblemSetSummary(int correct, int total)
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine($"\nSammanfattning: {correct} / {total}.");
