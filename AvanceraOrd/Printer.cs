@@ -15,6 +15,13 @@ namespace AvanceraOrd
             Console.ForegroundColor = defaultTextColor;
         }
 
+        public void PrintPageTitle(string title)
+        {
+            Console.Clear();
+            Console.ForegroundColor = defaultTextColor;
+            Console.WriteLine($"===== {title.ToUpper()} =====");
+        }
+
         public void PrintChapterTitle(int chapterNum)
         {
             Console.ForegroundColor = defaultTextColor;
