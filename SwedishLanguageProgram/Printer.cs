@@ -31,7 +31,7 @@ namespace SwedishLanguageProgram
         public void PrintProblemSetTitle(string problemSetTitle)
         {
             Console.ForegroundColor = defaultTextColor;
-            Console.WriteLine($"\n[{problemSetTitle}]");
+            Console.WriteLine($"\n[Uppgift {problemSetTitle}]");
         }
 
         public void PrintWordList(List<string> wordList)
