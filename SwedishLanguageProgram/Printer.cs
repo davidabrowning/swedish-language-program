@@ -82,5 +82,18 @@ namespace SwedishLanguageProgram
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine(warning);
         }
+
+        public void PrintInfo(string info)
+        {
+            Console.ForegroundColor = defaultTextColor;
+            Console.WriteLine(info);
+        }
+
+        public void PrintContinueConfirmation()
+        {
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.WriteLine("\nTryck ENTER för att fortsätta.\n");
+            Console.ReadLine();
+        }
     }
 }
