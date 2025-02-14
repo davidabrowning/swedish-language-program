@@ -9,82 +9,33 @@ using static System.Collections.Specialized.BitVector32;
 namespace SwedishLanguageProgram
 {
     /// <summary>
-    /// Loads word practice data from files.
+    /// Loads word practice data from data source.
     /// </summary>
     internal class DataLoader
     {
         // Constants
-        private const string configFilename = "TextFiles/Config.txt";
 
-        // Private fields - read in from config file
-        private string exerciseFilename;
-        private string wordBoxFilename;
-        private string sectionSeparator;
-        private string[] chapterNums;
-        private string[] exerciseLetters;
+        // Private readonly fields
+        private readonly string sectionSeparator = "===";
+        private readonly string[] chapterNums = { "1" };
+        private readonly string[] exerciseLetters = { "b", "c" };
+        private readonly string promptSeparator = "\n";
+        private readonly string promptNumberSeparator = ".";
+        private readonly string promptBlankOriginal = "_";
+        private readonly string promptBlankFinal = "____________";
 
-        // Private fields - other
-        private string promptSeparator = "\n";
-        private const string promptNumberSeparator = ".";
-        private string promptBlankOriginal = "_";
-        private const string promptBlankFinal = "____________";
+        // Private fields
         private Printer printer;
+        private Database database;
 
         public DataLoader()
         {
-            LoadConfigSettings();
             printer = new Printer();
-        }
-
-        private void LoadConfigSettings()
-        {
-            try
-            {
-                string settingsString = File.ReadAllText(configFilename);
-                string[] settingsArray = settingsString.Split("\n");
-                foreach (string settingString in settingsArray) {
-                    SetConfig(settingString);
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-        }
-
-        private void SetConfig(string configSetting)
-        {
-            string[] configSettingArray = configSetting.Split(":");
-            string configType = configSettingArray[0].Trim();
-            string configValue = configSettingArray[1].Trim();
-            switch (configType)
-            {
-                case "PromptFolder":
-                    exerciseFilename = configValue + "/{0}.txt";
-                    break;
-                case "WordBoxFolder":
-                    wordBoxFilename = configValue + "/{0}.txt";
-                    break;
-                case "SectionSeparator":
-                    sectionSeparator = configValue;
-                    break;
-                case "PromptBlank":
-                    promptBlankOriginal = configValue;
-                    break;
-                case "Chapters":
-                    chapterNums = configValue.Split(",");
-                    break;
-                case "Exercises":
-                    exerciseLetters = configValue.Split(",");
-                    break;
-                default:
-                    printer.PrintWarning("Varning: Oväntad konfigurationstyp.");
-                    break;
-            }
+            database = new Database();
         }
 
         /// <summary>
-        /// Loads all chapters from files.
+        /// Loads all chapters from data source.
         /// </summary>
         /// <returns>A list of chapters.</returns>
         public List<Chapter> LoadChapters()
@@ -100,36 +51,27 @@ namespace SwedishLanguageProgram
         }
 
         /// <summary>
-        /// Loads a chapter's word list from a file.
+        /// Loads a chapter's word list from a database object.
         /// </summary>
         /// <param name="chapterNum">The chapter number.</param>
         /// <returns>A string representation of the chapters word list.</returns>
-        private string LoadWordBox(string chapterNum)
+        private string? LoadWordBox(string chapterNum)
         {
-            try
-            {
-                return File.ReadAllText(String.Format(wordBoxFilename, chapterNum));
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"OBS: Lyckades inte läsa in kapitel {chapterNum}s ordlista.");
-                Console.WriteLine(ex.Message);
-                return "";
-            }
+            return database.GetWordBox(chapterNum);
         }
 
         /// <summary>
-        /// Loads a list of chapter exercises from a file.
+        /// Loads a list of chapter exercises from a database object.
         /// </summary>
         /// <param name="chapterNum">The chapter number.</param>
         /// <returns>A list of the chapter's exercises.</returns>
-        public List<Exercise> LoadExercises(string chapterNum)
+        private List<Exercise> LoadExercises(string chapterNum)
         {
             List<Exercise> sections = new List<Exercise>();
             foreach (string sectionSubtitle in exerciseLetters)
             {
                 string sectionTitle = $"{chapterNum}{sectionSubtitle}";
-                Exercise section = LoadExercise(sectionTitle);
+                Exercise section = LoadExerciseFromDatabaseObject(sectionTitle);
                 if (section != null)
                 {
                     sections.Add(section);
@@ -138,29 +80,17 @@ namespace SwedishLanguageProgram
             return sections;
         }
 
-        /// <summary>
-        /// Loads an exercise from a file.
-        /// </summary>
-        /// <param name="exerciseTitle">The exercise's title.</param>
-        /// <returns>The loaded exercise object.</returns>
-        private Exercise? LoadExercise(string exerciseTitle)
+        private Exercise? LoadExerciseFromDatabaseObject(string exerciseTitle)
         {
-            try
+            Exercise exercise = new Exercise(exerciseTitle);
+            string exerciseFullText = database.GetExercise(exerciseTitle);
+            string[] exerciseTextAreas = exerciseFullText.Split(sectionSeparator);
+            if(exerciseTextAreas.Length == 2)
             {
-                Exercise exercise = new Exercise(exerciseTitle);
-
-                string exerciseFullText = File.ReadAllText(String.Format(exerciseFilename, exerciseTitle));
-                string[] exerciseTextArea = exerciseFullText.Split(sectionSeparator);
-                exercise.Questions = LoadPrompts(exerciseTextArea[0]);
-                exercise.Answers = LoadPrompts(exerciseTextArea[1]);
-
-                return exercise;
+                exercise.Questions = LoadPrompts(exerciseTextAreas[0]);
+                exercise.Answers = LoadPrompts(exerciseTextAreas[1]);
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.ToString());
-                return null;
-            }
+            return exercise;
         }
 
         /// <summary>
