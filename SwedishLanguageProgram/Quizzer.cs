@@ -37,7 +37,7 @@ namespace SwedishLanguageProgram
             printer.PrintChapterTitle(chapter.Name);
             foreach (ProblemSet problemSet in chapter.ProblemSets)
             {
-                PerformProblemSetQuiz(problemSet, chapter.WordList);
+                PerformProblemSetRandomQuiz(problemSet, chapter.WordList);
             }
         }
 
@@ -46,17 +46,17 @@ namespace SwedishLanguageProgram
         /// </summary>
         /// <param name="problemSet">The problemSet for the quiz.</param>
         /// <param name="wordBox">The chapter's word list.</param>
-        private void PerformProblemSetQuiz(ProblemSet problemSet, List<string> wordList)
+        private void PerformProblemSetRandomQuiz(ProblemSet problemSet, List<string> wordList)
         {
             int questionsAsked = 0;
             int correctAnswers = 0;
-
             printer.PrintProblemSetTitle(problemSet.Name);
-            foreach (Prompt question in problemSet.Questions)
+            List<int> questionNumbers = problemSet.RandomizedOrderList;
+            foreach (int questionNumber in questionNumbers)
             {
-                Prompt? answer = problemSet.GetAnswer(question.Number);
+                Prompt question = problemSet.GetQuestion(questionNumber);
+                Prompt answer = problemSet.GetAnswer(questionNumber);
                 PerformQuestionQuiz(question, answer, wordList, ref questionsAsked, ref correctAnswers);
-
             }
             printer.PrintProblemSetSummary(correctAnswers, questionsAsked);
         }
