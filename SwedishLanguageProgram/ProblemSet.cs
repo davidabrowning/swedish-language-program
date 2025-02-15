@@ -60,7 +60,7 @@ namespace SwedishLanguageProgram
             Random random = new Random();
             for (int i = 0; i < Questions.Count; i++)
             {
-                randomizedOrderList.Add(i);
+                randomizedOrderList.Add(Questions[i].Number);
             }
             for (int i = 0; i < Questions.Count; i++)
             {

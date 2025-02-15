@@ -22,7 +22,7 @@ namespace SwedishLanguageProgram
         private const string promptBlankFinal = "____________";
 
         // Private readonly fields
-        private readonly string[] chapterNames = { "1" };
+        private readonly string[] chapterNames = { "1", "2" };
         private readonly string[] problemSetLetters = { "b", "c" };
 
         // Private fields

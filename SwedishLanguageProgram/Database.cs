@@ -40,8 +40,62 @@ namespace SwedishLanguageProgram
                         24. tillfälle
                         25. undvika	
                         """;
+                case "2":
+                    return """
+                        1. anse
+                        2. anställa
+                        3. avdelning
+                        4. avgift
+                        5. begränsa
+                        6. behålla
+                        7. besviken
+                        8. bortom
+                        9. emellertid
+                        10. envis
+                        11. förbli
+                        12. fördel
+                        13. föredra
+                        14. förgäves
+                        15. förhållande
+                        16. förvandla
+                        17. godkänna
+                        18. indela
+                        19. inför
+                        20. innehåll
+                        21. medge
+                        22. motsvara
+                        23. omedelbart
+                        24. oväsen
+                        25. upptäcka
+                        """;
                 default:
-                    return null;
+                    return """
+                        1. 
+                        2. 
+                        3. 
+                        4. 
+                        5. 
+                        6. 
+                        7. 
+                        8. 
+                        9. 
+                        10. 
+                        11. 
+                        12. 
+                        13. 
+                        14. 
+                        15. 
+                        16. 
+                        17. 
+                        18. 
+                        19. 
+                        20. 
+                        21. 
+                        22. 
+                        23. 
+                        24. 
+                        25. 
+                        """;
             }
         }
         public string? GetProblemSet(string problemSetName)
@@ -155,6 +209,114 @@ namespace SwedishLanguageProgram
                         23. närvarande
                         24. bidrag
                         25. däremot
+                        """;
+                case "2b":
+                    return """
+                        1. Det har flera positiva sidor. Det har flera _.
+                        2. Jag måste hålla med om det. Jag _ det.
+                        3. De hittade flera fel. De _ flera fel.
+                        4. Man kör förbi idrottsplatsen. Det ligger _ idrottsplatsen.
+                        5. Vad tycker du? Vad _ du?
+                        6. Snart börjar ett nytt läsår. Vi står _ ett nytt läsår.
+                        7. De har förändrat det radikalt. De har _ det.
+                        8. Vad är det för oljud? Vad är det för _?
+                        9. Hon ger sig inte. Hon är _.
+                        10. Det är bra. Vi accepterar det. Vi _ det.
+                        11. 100 personer arbetar för dem. De har _ 100 personer.
+                        12. Jag är ledsen och missnöjd. Jag är _.
+                        13. Det är dock svårt. Det är _ svårt.
+                        14. Det tjänade ingenting till. Det var _.
+                        15. Det är jämförbart med vårt system. Det _ vårt system.
+                        16. Hur är relationen mellan dem? Hur är _ mellan dem?
+                        17. Var på varuhuset säljs resväskor? På vilken _ säljs resväskor?
+                        18. Du får ha kvar boken. Du får _ boken.
+                        19. De delar upp oss i grupper. De _ oss i grupper.
+                        20. Han kom genast. Han kom _.
+                        21. Vi betalar 500 kr i månaden. _ är 500 kr i månaden.
+                        22. Vad finns inuti den? Vad har den för _?
+                        23. De vil inte att det blir större. De vill _ det.
+                        24. Jag åker hellre tåg än buss. Jag _ tåg framför buss.
+                        25. Han gifte sig aldrig. Han _ ogift.
+                        ===
+                        1. fördelar
+                        2. medger
+                        3. upptäckte
+                        4. bortom
+                        5. anser
+                        6. inför
+                        7. förvandlat
+                        8. oväsen
+                        9. envis
+                        10. godkänner
+                        11. anställt
+                        12. besviken
+                        13. emellertid
+                        14. förgäves
+                        15. motsvarar
+                        16. förhållandet
+                        17. avdelning
+                        18. behålla
+                        19. indelar
+                        20. omedelbart
+                        21. Avgiften
+                        22. innehåll
+                        23. begränsa
+                        24. föredrar
+                        25. förblev
+                        """;
+                case "2c":
+                    return """
+                        1. Det var svårt att sova på grund av allt _ utanför huset.
+                        2. Var det Christofer Columbus som _ Amerika?
+                        3. En euro _ ungefär nio svenska kronor.
+                        4. _ är 20 kronor för vuxna och 10 kronoer för barn.
+                        5. Vi sålde all möblerna men _ några gamla tavlor.
+                        6. Jag var _. Jag hade hoppats på ett mycket bättre resultat.
+                        7. Flaskan gick sönder och _ rann ut.
+                        8. Landet har _ importen avolja därför att kostnaderna var för höga.
+                        9. Den nya bostaden har många _. Den är ljus och modern och har ett bra läge.
+                        10. _ mellan läraren och eleverna är öppet och kamratligt.
+                        11. Vi fick inga pengar för de _ inte vår räkning.
+                        12. Han _ att det verkade svårt, men han tänkte i alla fall försöka.
+                        13. Vi har inte tid att vänta. Det måste göras.
+                        14. Jag känner oro _ framtiden.
+                        15. Man brukade _ befolkningen i tre socialgrupper.
+                        16. Jag tycket inte om vide. Jag _ att se vilm på bio.
+                        17. I semestertider brukar de _ extra personal.
+                        18. Solen går ner _ bergen och färgar kvällshimlen röd.
+                        19. Han är intagen på sjukhus, men jag vet inte vilken _ han ligger på.
+                        20. Vad _ du att regeringen bör göra?
+                        21. Det var förgäves. a) Det var inte som väntat. b) Det motsvarade förväntningarna. c) Det var bortkastat.
+                        22. Den förblev min. a) De tog den från mig. b) Jag fick den. c) Den stannade hos mig.
+                        23. Man har förvandlat dem. a) De har fått arbete. b) De är nu helt annorlunda. c) De har försvunnit.
+                        24. Han var emellertid sjuk. a) Men han var sjuk. b) Han var sjuk under tiden. c) Han var sjuk flera gånger.
+                        25. Han är envis. a) Han vet mest av alla. b) Han är ledsen nu. c) Han ger sig inte.
+                        ===
+                        1. oväsen
+                        2. upptäckte
+                        3. motsvarar
+                        4. avgiften
+                        5. behöll
+                        6. besviken
+                        7. innehållet
+                        8. begränsat
+                        9. fördelar
+                        10. förhållandet
+                        11. godkände
+                        12. medgav
+                        13. omedelbart
+                        14. inför
+                        15. indela
+                        16. föredrar
+                        17. anställa
+                        18. bortom
+                        19. avdelning
+                        20. anser
+                        21. c
+                        22. c
+                        23. b
+                        24. a
+                        25. c
                         """;
                 default:
                     Console.WriteLine($"Lyckades inte ladda in {problemSetName} from Database-klassen.");

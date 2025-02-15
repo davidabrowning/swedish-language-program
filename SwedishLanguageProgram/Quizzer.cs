@@ -39,6 +39,7 @@ namespace SwedishLanguageProgram
             {
                 PerformProblemSetRandomQuiz(problemSet, chapter.WordList);
             }
+            printer.PrintContinueConfirmation();
         }
 
         /// <summary>
@@ -59,6 +60,7 @@ namespace SwedishLanguageProgram
                 PerformQuestionQuiz(question, answer, wordList, ref questionsAsked, ref correctAnswers);
             }
             printer.PrintProblemSetSummary(correctAnswers, questionsAsked);
+            printer.PrintContinueConfirmation();
         }
 
         /// <summary>
