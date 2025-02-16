@@ -32,7 +32,7 @@ namespace SwedishLanguageProgram
         /// Quizzes the user on one chapter.
         /// </summary>
         /// <param name="chapter">The chapter for the quiz.</param>
-        private void PerformChapterQuiz(Chapter chapter)
+        public void PerformChapterQuiz(Chapter chapter)
         {
             printer.PrintChapterTitle(chapter.Name);
             foreach (ProblemSet problemSet in chapter.ProblemSets)

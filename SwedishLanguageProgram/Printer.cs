@@ -42,7 +42,7 @@ namespace SwedishLanguageProgram
         {
             PrintContinueConfirmation();
             Console.Clear();
-            Console.ForegroundColor = defaultTextColor;
+            Console.ForegroundColor = ConsoleColor.Yellow;
             for (int i = 0; i < wordList.Count; i++)
             {
                 if (i != 0 && i % 5 == 0)
