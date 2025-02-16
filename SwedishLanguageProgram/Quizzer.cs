@@ -79,10 +79,10 @@ namespace SwedishLanguageProgram
             }
 
             printer.PrintQuestion(question.Text);
-            string userInput = Console.ReadLine().ToLower();
+            string userInput = Console.ReadLine().Trim();
 
             questionsAsked++;
-            if (userInput.Length > 1 && answer.Text.ToLower().Contains(userInput))
+            if (userInput.ToLower() == answer.Text.ToLower())
             {
                 printer.PrintCorrectAnswer(answer.Text);
                 correctAnswers++;
