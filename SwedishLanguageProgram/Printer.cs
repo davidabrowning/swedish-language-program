@@ -24,22 +24,28 @@ namespace SwedishLanguageProgram
 
         public void PrintChapterTitle(string chapterName)
         {
+            PrintContinueConfirmation();
+            Console.Clear();
             Console.ForegroundColor = defaultTextColor;
             Console.WriteLine($"===== KAPITEL {chapterName} =====");
         }
 
         public void PrintProblemSetTitle(string problemSetTitle)
         {
+            PrintContinueConfirmation();
+            Console.Clear();
             Console.ForegroundColor = defaultTextColor;
-            Console.WriteLine($"\n[Uppgift {problemSetTitle}]");
+            Console.WriteLine($"[Uppgift {problemSetTitle}]");
         }
 
         public void PrintWordList(List<string> wordList)
         {
-            Console.ForegroundColor = defaultTextColor;
+            PrintContinueConfirmation();
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Yellow;
             for (int i = 0; i < wordList.Count; i++)
             {
-                if (i % 5 == 0)
+                if (i != 0 && i % 5 == 0)
                 {
                     Console.WriteLine();
                 }

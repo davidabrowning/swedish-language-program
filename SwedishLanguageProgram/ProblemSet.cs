@@ -12,6 +12,7 @@ namespace SwedishLanguageProgram
         
         public List<Prompt> Questions { get; set; }
         public List<Prompt> Answers { get; set; }
+        public List<int> RandomizedOrderList { get { return GetRandomizedOrderList(); } }
         public ProblemSet(string name)
         {
             Name = name;
@@ -51,6 +52,24 @@ namespace SwedishLanguageProgram
                 }
             }
             return null;
+        }
+
+        private List<int> GetRandomizedOrderList()
+        {
+            List<int> randomizedOrderList = new List<int>();
+            Random random = new Random();
+            for (int i = 0; i < Questions.Count; i++)
+            {
+                randomizedOrderList.Add(Questions[i].Number);
+            }
+            for (int i = 0; i < Questions.Count; i++)
+            {
+                int randomIndex = random.Next(0, Questions.Count);
+                int temp = randomizedOrderList[i];
+                randomizedOrderList[i] = randomizedOrderList[randomIndex];
+                randomizedOrderList[randomIndex] = temp;
+            }
+            return randomizedOrderList;
         }
     }
 }

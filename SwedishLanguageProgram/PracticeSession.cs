@@ -50,7 +50,7 @@ namespace SwedishLanguageProgram
             switch (Console.ReadLine().Trim())
             {
                 case "1":
-                    StartQuiz();
+                    ShowChapterMenu();
                     break;
                 case "2":
                     ShowResults();
@@ -65,9 +65,40 @@ namespace SwedishLanguageProgram
             }
         }
 
-        private void StartQuiz()
+        private void ShowChapterMenu()
         {
-            quizzer.Start(chapters);
+            printer.PrintPageTitle("Kapitelmeny");
+            for (int i = 0; i < chapters.Count; i++)
+            {
+                printer.PrintInfo($"[{i + 1}] Kapitel {chapters[i].Name}");
+            }
+            printer.PrintInfo("[9] Tillbaka till huvudmenyn");
+            HandleChapterMenuInput();
+        }
+
+        private void HandleChapterMenuInput()
+        {
+            switch (Console.ReadLine().Trim())
+            {
+                case "1":
+                    StartQuiz(chapters[0]);
+                    break;
+                case "2":
+                    StartQuiz(chapters[1]);
+                    break;
+                case "9":
+                    ShowMainMenu();
+                    break;
+                default:
+                    printer.PrintWarning("Oväntad inmatning. Försök igen.");
+                    printer.PrintContinueConfirmation();
+                    break;
+            }
+        }
+
+        private void StartQuiz(Chapter chapter)
+        {
+            quizzer.PerformChapterQuiz(chapter);
             printer.PrintContinueConfirmation();
             ShowMainMenu();
         }
