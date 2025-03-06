@@ -25,7 +25,6 @@ namespace SwedishLanguageProgram
             {
                 PerformChapterQuiz(chapter);
             }
-            printer.Reset();
         }
 
         /// <summary>
