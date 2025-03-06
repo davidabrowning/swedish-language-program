@@ -104,11 +104,11 @@ namespace SwedishLanguageProgram
             string[] textLines = textArea.Split(promptSeparator);
             foreach (string textLine in textLines)
             {
-                int indexOfFirstPeriod = textLine.IndexOf(promptNumberSeparator);
-                if (indexOfFirstPeriod == -1)
+                if (!TextLineContainsNumberSeparatorCharacter(textLine))
                 {
                     continue;
                 }
+                int indexOfFirstPeriod = textLine.IndexOf(promptNumberSeparator);
                 string promptNumAsString = textLine.Substring(0, indexOfFirstPeriod);
                 string promptText = textLine.Substring(indexOfFirstPeriod + 1);
                 if (int.TryParse(promptNumAsString, out int promptNum)) {
@@ -122,6 +122,11 @@ namespace SwedishLanguageProgram
                 }
             }
             return prompts;
+        }
+
+        private bool TextLineContainsNumberSeparatorCharacter(string textLine)
+        {
+            return textLine.IndexOf(promptNumberSeparator) > 0;
         }
     }
 }
