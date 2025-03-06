@@ -45,14 +45,14 @@ namespace SwedishLanguageProgram
 
         private void PerformQuestionQuiz(Prompt question, Prompt answer, string wordBox, ref int questionsAsked, ref int correctAnswers)
         {
-            if (questionsAsked % 5 == 0)
+            if (ItsTimeToReprintWordBox(questionsAsked))
                 printer.PrintWordBox(wordBox);
 
             printer.PrintQuestion(question.Text);
-            string userInput = Console.ReadLine().ToLower();
+            string userInput = Console.ReadLine();
 
             questionsAsked++;
-            if (userInput.Length > 1 && answer.Text.ToLower().Contains(userInput))
+            if (Equals(userInput.ToLower(), answer.Text.ToLower()))
             {
                 printer.PrintCorrectAnswer(answer.Text);
                 correctAnswers++;
@@ -61,6 +61,11 @@ namespace SwedishLanguageProgram
             {
                 printer.PrintIncorrectAnswer(answer.Text);
             }
+        }
+
+        private bool ItsTimeToReprintWordBox(int numQuestionsAsked)
+        {
+            return numQuestionsAsked % 5 == 0;
         }
     }
 }
