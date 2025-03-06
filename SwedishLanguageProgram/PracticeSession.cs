@@ -8,15 +8,10 @@ namespace SwedishLanguageProgram
 {
     internal class PracticeSession
     {
-
-        // Fields
         private DataLoader dataLoader;
         private Quizzer quizzer;
         private List<Chapter> chapters;
 
-        // Properties
-        
-        // Constructors
         public PracticeSession()
         {
             dataLoader = new DataLoader();
@@ -24,9 +19,6 @@ namespace SwedishLanguageProgram
             chapters = new List<Chapter>();
         }
 
-        /// <summary>
-        /// Starts the practice session.
-        /// </summary>
         public void Start()
         {
             chapters = dataLoader.LoadChapters();
