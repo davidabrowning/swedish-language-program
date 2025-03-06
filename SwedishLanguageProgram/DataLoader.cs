@@ -73,9 +73,7 @@ namespace SwedishLanguageProgram
                 string sectionTitle = $"{chapterNum}{sectionSubtitle}";
                 Exercise section = LoadExerciseFromDatabaseObject(sectionTitle);
                 if (section != null)
-                {
                     sections.Add(section);
-                }
             }
             return sections;
         }
@@ -103,30 +101,30 @@ namespace SwedishLanguageProgram
             List<Prompt> prompts = new List<Prompt>();
             string[] textLines = textArea.Split(promptSeparator);
             foreach (string textLine in textLines)
-            {
-                if (!TextLineContainsNumberSeparatorCharacter(textLine))
-                {
-                    continue;
-                }
-                int indexOfFirstPeriod = textLine.IndexOf(promptNumberSeparator);
-                string promptNumAsString = textLine.Substring(0, indexOfFirstPeriod);
-                string promptText = textLine.Substring(indexOfFirstPeriod + 1);
-                if (int.TryParse(promptNumAsString, out int promptNum)) {
-                    promptText = promptText.Replace(promptBlankOriginal, promptBlankFinal);
-                    Prompt prompt = new Prompt(promptNum, promptText.Trim());
-                    prompts.Add(prompt);
-                }
-                else
-                {
-                    continue;
-                }
-            }
+                TryAddNewPromptToPrompts(textLine, prompts);
             return prompts;
         }
 
         private bool TextLineContainsNumberSeparatorCharacter(string textLine)
         {
             return textLine.IndexOf(promptNumberSeparator) > 0;
+        }
+
+        private void TryAddNewPromptToPrompts(string textLine, List<Prompt> prompts)
+        {
+            if (!TextLineContainsNumberSeparatorCharacter(textLine))
+                return;
+            int indexOfFirstPeriod = textLine.IndexOf(promptNumberSeparator);
+            string promptNumAsString = textLine.Substring(0, indexOfFirstPeriod);
+            string promptText = textLine.Substring(indexOfFirstPeriod + 1);
+            if (int.TryParse(promptNumAsString, out int promptNum))
+                prompts.Add(GetPromptFromNumberAndText(promptNum, promptText));
+        }
+
+        private Prompt GetPromptFromNumberAndText(int promptNum, string promptText)
+        {
+            promptText = promptText.Replace(promptBlankOriginal, promptBlankFinal);
+            return new Prompt(promptNum, promptText.Trim());
         }
     }
 }
