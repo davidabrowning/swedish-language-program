@@ -49,10 +49,10 @@ namespace SwedishLanguageProgram
                 printer.PrintWordBox(wordBox);
 
             printer.PrintQuestion(question.Text);
-            string userInput = Console.ReadLine().ToLower();
+            string userInput = Console.ReadLine();
 
             questionsAsked++;
-            if (userInput.Length > 1 && answer.Text.ToLower().Contains(userInput))
+            if (Equals(userInput.ToLower(), answer.Text.ToLower()))
             {
                 printer.PrintCorrectAnswer(answer.Text);
                 correctAnswers++;
