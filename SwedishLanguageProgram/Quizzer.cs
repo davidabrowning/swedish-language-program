@@ -45,7 +45,7 @@ namespace SwedishLanguageProgram
 
         private void PerformQuestionQuiz(Prompt question, Prompt answer, string wordBox, ref int questionsAsked, ref int correctAnswers)
         {
-            if (questionsAsked % 5 == 0)
+            if (ItsTimeToReprintWordBox(questionsAsked))
                 printer.PrintWordBox(wordBox);
 
             printer.PrintQuestion(question.Text);
@@ -61,6 +61,11 @@ namespace SwedishLanguageProgram
             {
                 printer.PrintIncorrectAnswer(answer.Text);
             }
+        }
+
+        private bool ItsTimeToReprintWordBox(int numQuestionsAsked)
+        {
+            return numQuestionsAsked % 5 == 0;
         }
     }
 }
