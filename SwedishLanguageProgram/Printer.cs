@@ -10,69 +10,29 @@ namespace SwedishLanguageProgram
     {
         private ConsoleColor defaultTextColor = ConsoleColor.White;
 
-        public void Reset()
+        public void Clear() => Console.Clear();
+        public void Print(string text, ConsoleColor textColor)
         {
+            Console.ForegroundColor = textColor;
+            Console.Write(text);
             Console.ForegroundColor = defaultTextColor;
         }
-
-        public void PrintPageTitle(string title)
+        public void Print(string text) => Print(text, defaultTextColor);
+        public void PrintLine(string text, ConsoleColor textColor) => Print($"{text}\n", textColor);
+        public void PrintLine(string text) => PrintLine(text, defaultTextColor);
+        public void PrintPageTitle(string text)
         {
-            Console.Clear();
-            Console.ForegroundColor = defaultTextColor;
-            Console.WriteLine($"===== {title.ToUpper()} =====");
+            Clear();
+            PrintLine($"===== {text.ToUpper()} =====");
         }
-
-        public void PrintChapterTitle(int chapterNum)
-        {
-            Console.ForegroundColor = defaultTextColor;
-            Console.WriteLine($"===== KAPITEL {chapterNum} =====");
-        }
-
-        public void PrintExerciseTitle(string sectionTitle)
-        {
-            Console.ForegroundColor = defaultTextColor;
-            Console.WriteLine($"\n[{sectionTitle}]");
-        }
-
-        public void PrintWordBox(string wordBox)
-        {
-            Console.ForegroundColor = defaultTextColor;
-            Console.WriteLine($"\n{wordBox}");
-        }
-
-        public void PrintQuestion(string question)
-        {
-            Console.ForegroundColor = defaultTextColor;
-            Console.Write($"\n{question}     ");
-        }
-
-        public void PrintExerciseSummary(int correct, int total)
-        {
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine($"\nSammanfattning: {correct} / {total}.");
-        }
-
-        public void PrintCorrectAnswer(string answer)
-        {
-            Console.ForegroundColor = ConsoleColor.Green;
-            PrintAnswer(answer);
-        }
-
-        public void PrintIncorrectAnswer(string answer)
-        {
-            Console.ForegroundColor = ConsoleColor.Red;
-            PrintAnswer(answer);
-        }
-
-        public void PrintAnswer(string answer)
-        {
-            Console.WriteLine($"{answer}");
-        }
-
-        public void PrintWarning(string warning)
-        {
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine(warning);
-        }
+        public void PrintChapterTitle(int num) => PrintLine($"===== KAPITEL {num} =====");
+        public void PrintExerciseTitle(string text) => PrintLine($"\n[{text}]");
+        public void PrintWordBox(string text) => PrintLine($"\n{text}");
+        public void PrintQuestion(string text) => Print($"\n{text}     ");
+        public void PrintExerciseSummary(int correct, int total) 
+            => PrintLine($"\nSammanfattning: {correct} / {total}.", ConsoleColor.Cyan);
+        public void PrintCorrectAnswer(string text) => PrintLine(text, ConsoleColor.Green);
+        public void PrintIncorrectAnswer(string text) => PrintLine(text, ConsoleColor.Red);
+        public void PrintWarning(string text) => PrintLine(text, ConsoleColor.Yellow);
     }
 }
